@@ -1,6 +1,7 @@
 package com.com.weatherapp
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -55,9 +56,8 @@ fun LoginPage(modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Center, // Centraliza os elementos verticalmente
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally // Centraliza os elementos horizontalmente
-
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
         Text(
             text = "Bem-vindo/a!",
@@ -85,13 +85,18 @@ fun LoginPage(modifier: Modifier = Modifier) {
         Row(modifier = modifier.fillMaxWidth()) {
             Button(
                 onClick = {
-                    Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
-                },
+                activity?.startActivity(
+                    Intent(activity, MainActivity::class.java).setFlags(
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    )
+                )
+        },
                 enabled = email.isNotEmpty() && password.isNotEmpty(),
                 modifier = modifier.weight(1f)
             ) {
                 Text("Login")
             }
+
             Spacer(modifier = modifier.size(16.dp))
             Button(
                 onClick = { email = ""; password = "" },
