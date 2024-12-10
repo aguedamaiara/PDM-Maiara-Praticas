@@ -19,7 +19,7 @@ import com.com.weatherapp.R
 import com.com.weatherapp.ui.viewmodels.MainViewModel
 
 @Composable
-fun HomePage(viewModel: MainViewModel) { // Aceita o ViewModel como parâmetro
+fun HomePage(viewModel: MainViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()

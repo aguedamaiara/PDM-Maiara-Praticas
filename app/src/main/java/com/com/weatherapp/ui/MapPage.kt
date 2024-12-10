@@ -18,15 +18,15 @@ import com.com.weatherapp.R
 import com.com.weatherapp.ui.viewmodels.MainViewModel
 
 @Composable
-fun MapPage(viewModel: MainViewModel) { // Aceita o ViewModel como parâmetro
+fun MapPage(viewModel: MainViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.purple_700)) // Use a cor purple_700
+            .background(colorResource(id = R.color.purple_700))
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Mapa", // Texto alterado
+            text = "Mapa",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),
