@@ -12,13 +12,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.com.weatherapp.R
 
+import com.com.weatherapp.ui.viewmodels.MainViewModel
+
 @Composable
-fun HomePage() {
+fun HomePage(viewModel: MainViewModel) { // Aceita o ViewModel como parâmetro
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(colorResource(id = R.color.teal_700))
             .wrapContentSize(Alignment.Center)
     ) {
@@ -31,6 +35,12 @@ fun HomePage() {
             fontSize = 20.sp
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePagePreview() {
+    HomePage(viewModel = MainViewModel())
 }
 
 

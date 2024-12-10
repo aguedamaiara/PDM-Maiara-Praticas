@@ -26,11 +26,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.com.weatherapp.R
+import com.com.weatherapp.ui.viewmodels.MainViewModel
+import com.com.weatherapp.model.City
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
-fun ListPage(modifier: Modifier = Modifier) {
-    val cityList = remember { getCities().toMutableStateList() }
-    val context = LocalContext.current
+fun ListPage(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel // Passando o ViewModel como parâmetro
+) {
+    val cityList = viewModel.cities // Obtendo a lista de cidades do ViewModel
+    val context = LocalContext.current // Para acessar o contexto da atividade atual
 
     LazyColumn(
         modifier = modifier
@@ -41,35 +48,26 @@ fun ListPage(modifier: Modifier = Modifier) {
             CityItem(
                 city = city,
                 onClose = {
-                    // Remove a cidade da lista quando clicar no botão de fechar
-                    cityList.remove(city)
+                    // Removendo a cidade da lista quando clicar no botão de fechar
+                    viewModel.remove(city)
                     Toast.makeText(context, "Cidade removida: ${city.name}", Toast.LENGTH_SHORT).show()
                 },
                 onClick = {
                     Toast.makeText(context, "Cidade selecionada: ${city.name}", Toast.LENGTH_SHORT).show()
-
                 }
             )
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ListPagePreview() {
-    ListPage()
+    // Exemplo de como passar o ViewModel no preview
+    ListPage(viewModel = MainViewModel())
 }
 
-data class City(
-    val name: String,
-    val weather: String? = null,
-    val location: String? = null
-)
 
-private fun getCities() = List(20) { i ->
-    City(name = "Cidade $i", weather = "Carregando clima...")
-}
 
 @Composable
 fun CityItem(

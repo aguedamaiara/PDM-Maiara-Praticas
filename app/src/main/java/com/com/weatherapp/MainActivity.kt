@@ -19,21 +19,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.com.weatherapp.ui.HomePage
-import com.com.weatherapp.ui.nav.BottomNavBar
-import com.com.weatherapp.ui.nav.BottomNavItem
+import androidx.activity.viewModels // Importando a função viewModels
 import com.com.weatherapp.ui.nav.MainNavHost
 import com.com.weatherapp.ui.theme.WeatherAppTheme
+import com.com.weatherapp.ui.viewmodels.MainViewModel
 import androidx.compose.material.icons.filled.ExitToApp
-
+import com.com.weatherapp.ui.nav.BottomNavBar
+import com.com.weatherapp.ui.nav.BottomNavItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
+    // Instanciando o MainViewModel de forma global
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             val navController = rememberNavController()
+
             WeatherAppTheme {
                 Scaffold(
                     topBar = {
@@ -50,6 +55,7 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
+                        // Navegação inferior
                         val items = listOf(
                             BottomNavItem.HomeButton,
                             BottomNavItem.ListButton,
@@ -63,12 +69,12 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
+                    // Passando o viewModel para o MainNavHost
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        MainNavHost(navController = navController)
+                        MainNavHost(navController = navController, viewModel = viewModel)
                     }
                 }
             }
         }
     }
 }
-

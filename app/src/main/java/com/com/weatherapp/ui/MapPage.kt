@@ -15,9 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.com.weatherapp.R
+import com.com.weatherapp.ui.viewmodels.MainViewModel
 
 @Composable
-fun MapPage() {
+fun MapPage(viewModel: MainViewModel) { // Aceita o ViewModel como parâmetro
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,6 +39,7 @@ fun MapPage() {
 @Preview(showBackground = true)
 @Composable
 fun MapPagePreview() {
-    MapPage()
+    MapPage(viewModel = MainViewModel())
 }
+
 
