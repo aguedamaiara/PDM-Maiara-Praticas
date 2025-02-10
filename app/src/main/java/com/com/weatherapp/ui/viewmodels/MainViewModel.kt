@@ -28,14 +28,12 @@ class MainViewModel(private val db: FBDatabase) : ViewModel(),
     // Função para remover uma cidade da lista
     fun remove(city: City) {
         db.remove(city)
-        _cities.remove(city)
     }
 
     // Função para adicionar uma cidade à lista
     fun add(name: String, location: LatLng? = null) {
         val newCity = City(name = name, location = location)
         db.add(newCity)
-        _cities.add(newCity)
     }
 
     override fun onUserLoaded(user: User) {
