@@ -57,14 +57,6 @@ fun ListPage(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ListPagePreview() {
-    // Exemplo de como passar o ViewModel no preview
-    ListPage(viewModel = MainViewModel())
-}
-
-
 
 @Composable
 fun CityItem(

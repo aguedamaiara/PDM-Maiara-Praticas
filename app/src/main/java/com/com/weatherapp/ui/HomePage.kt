@@ -1,5 +1,6 @@
 package com.com.weatherapp.ui
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +22,9 @@ import com.com.weatherapp.ui.viewmodels.MainViewModel
 
 @Composable
 fun HomePage(viewModel: MainViewModel) {
+    val activity = LocalContext.current as? Activity
+    val cityList = viewModel.cities
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,12 +40,6 @@ fun HomePage(viewModel: MainViewModel) {
             fontSize = 20.sp
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomePagePreview() {
-    HomePage(viewModel = MainViewModel())
 }
 
 

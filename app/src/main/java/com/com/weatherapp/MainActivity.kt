@@ -37,6 +37,9 @@ import com.com.weatherapp.ui.theme.WeatherAppTheme
 import com.com.weatherapp.ui.viewmodels.MainViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.com.weatherapp.db.fb.FBDatabase
+import com.com.weatherapp.ui.viewmodels.MainViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -53,6 +56,11 @@ class MainActivity : ComponentActivity() {
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.hasRoute(Route.List::class)?:false
             val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )
+
+            val fbDB = remember { FBDatabase() }
+            val viewModel : MainViewModel = viewModel(
+                factory = MainViewModelFactory(fbDB)
+            )
 
             WeatherAppTheme {
                 if (showDialog) {
