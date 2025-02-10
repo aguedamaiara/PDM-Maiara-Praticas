@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/appInsightsSettings.xml
+app/google-services.json

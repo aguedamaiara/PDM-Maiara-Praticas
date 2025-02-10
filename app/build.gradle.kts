@@ -69,4 +69,5 @@ dependencies {
     // Google maps for compose
     implementation("com.google.maps.android:maps-compose:2.8.0")
     implementation(libs.firebase.auth)
+    implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
 }

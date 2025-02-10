@@ -1,6 +1,7 @@
 package com.com.weatherapp
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -17,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.com.weatherapp.ui.theme.WeatherAppTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,11 +96,22 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             Button(
                 onClick = {
                     if (password == confirmPassword) {
-                       Toast.makeText(activity, "Registro realizado com sucesso!", Toast.LENGTH_SHORT).show()
-                        activity?.finish()
+                        Firebase.auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(activity!!) { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
+                                    activity.startActivity(
+                                        Intent(activity, MainActivity::class.java).setFlags(
+                                            Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                        )
+                                    )
+                                    activity.finish()
+                                } else {
+                                    Toast.makeText(activity, "Registro FALHOU!", Toast.LENGTH_LONG).show()
+                                }
+                            }
                     } else {
-                        // Exibe um Toast se as senhas não coincidirem
-                        Toast.makeText(activity, "As senhas não coincidem!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Senhas não coincidem!", Toast.LENGTH_LONG).show()
                     }
                 },
                 enabled = name.isNotEmpty()

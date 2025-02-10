@@ -29,6 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.com.weatherapp.ui.theme.WeatherAppTheme
+import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,11 +87,23 @@ fun LoginPage(modifier: Modifier = Modifier) {
         Row(modifier = modifier.fillMaxWidth()) {
             Button(
                 onClick = {
-                activity?.startActivity(
-                    Intent(activity, MainActivity::class.java).setFlags(
-                        Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    )
-                )
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        Firebase.auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(activity!!) { task ->
+                                if (task.isSuccessful) {
+                                    activity.startActivity(
+                                        Intent(activity, MainActivity::class.java).setFlags(
+                                            Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                        )
+                                    )
+                                    Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
+                                } else {
+                                    Toast.makeText(activity, "Login FALHOU!", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                    } else {
+                        Toast.makeText(activity, "Preencha todos os campos!", Toast.LENGTH_LONG).show()
+                    }
         },
                 enabled = email.isNotEmpty() && password.isNotEmpty(),
                 modifier = modifier.weight(1f)
@@ -106,7 +123,9 @@ fun LoginPage(modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 // Navegar para RegisterActivity
-                activity?.startActivity(Intent(activity, RegisterActivity::class.java))
+                activity?.startActivity(Intent(activity, RegisterActivity::class.java).setFlags(
+                    FLAG_ACTIVITY_SINGLE_TOP or FLAG_ACTIVITY_NO_HISTORY
+                ))
             }
         ) {
             Text("Criar uma conta")
