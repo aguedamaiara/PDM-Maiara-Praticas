@@ -66,9 +66,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
     // Google maps for compose
-    implementation("com.google.maps.android:maps-compose:2.8.0")// Google maps
-    implementation("com.google.android.gms:play-services-maps:19.0.0")
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-    // Google maps for compose
     implementation("com.google.maps.android:maps-compose:2.8.0")
 }
