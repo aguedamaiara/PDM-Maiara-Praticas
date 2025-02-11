@@ -101,8 +101,8 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                         Firebase.auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(activity!!) { task ->
                                 if (task.isSuccessful) {
-                                    Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
                                     FBDatabase().register(User(name, email))
+                                    Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
                                     activity.startActivity(
                                         Intent(activity, MainActivity::class.java).setFlags(
                                             Intent.FLAG_ACTIVITY_SINGLE_TOP

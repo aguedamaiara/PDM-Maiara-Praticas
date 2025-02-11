@@ -1,7 +1,6 @@
 package com.com.weatherapp.ui.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import com.com.weatherapp.model.City
 import com.com.weatherapp.model.User
@@ -32,8 +31,7 @@ class MainViewModel(private val db: FBDatabase) : ViewModel(),
 
     // Função para adicionar uma cidade à lista
     fun add(name: String, location: LatLng? = null) {
-        val newCity = City(name = name, location = location)
-        db.add(newCity)
+        db.add(City(name = name, location = location))
     }
 
     override fun onUserLoaded(user: User) {

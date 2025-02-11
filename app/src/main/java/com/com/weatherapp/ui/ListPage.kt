@@ -1,5 +1,6 @@
 package com.com.weatherapp.ui
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -33,8 +34,8 @@ fun ListPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel // Passando o ViewModel como parâmetro
 ) {
-    val cityList = viewModel.cities // Obtendo a lista de cidades do ViewModel
-    val context = LocalContext.current
+    val activity = LocalContext.current as? Activity
+    val cityList = viewModel.cities
 
     LazyColumn(
         modifier = modifier
@@ -42,17 +43,11 @@ fun ListPage(
             .padding(8.dp)
     ) {
         items(cityList) { city ->
-            CityItem(
-                city = city,
-                onClose = {
-                    // Removendo a cidade da lista quando clicar no botão de fechar
-                    viewModel.remove(city)
-                    Toast.makeText(context, "Cidade removida: ${city.name}", Toast.LENGTH_SHORT).show()
-                },
-                onClick = {
-                    Toast.makeText(context, "Cidade selecionada: ${city.name}", Toast.LENGTH_SHORT).show()
-                }
-            )
+            CityItem(city = city, onClose = {
+                viewModel.remove(city)
+            }, onClick = {
+                Toast.makeText(activity, "Click!", Toast.LENGTH_LONG).show()
+            })
         }
     }
 }
@@ -96,13 +91,5 @@ fun CityItem(
         }
     }
 }
-@Preview(showBackground = true)
-@Composable
-fun CityItemPreview() {
-    CityItem(
-        city = City(name = "Recife", weather = "Ensolarado"),
-        onClick = {},
-        onClose = {}
-    )
-}
+
 
