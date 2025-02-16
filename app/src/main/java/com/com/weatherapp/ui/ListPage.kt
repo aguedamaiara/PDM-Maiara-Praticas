@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.com.weatherapp.model.City
+import com.com.weatherapp.ui.nav.Route
 import com.com.weatherapp.ui.viewmodels.MainViewModel
 
 
@@ -49,6 +50,7 @@ fun ListPage(
             CityItem(city = city, onClose = {
             }, onClick = {
                 viewModel.city = city
+                viewModel.page = Route.Home
                 Toast.makeText(activity, "Click!", Toast.LENGTH_LONG).show()
             })
         }
