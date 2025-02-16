@@ -9,19 +9,26 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import com.com.weatherapp.db.fb.FBDatabase
 import com.com.weatherapp.api.WeatherService
+import com.com.weatherapp.model.Forecast
 import com.com.weatherapp.model.Weather
 
 class MainViewModel (private val db: FBDatabase,
                      private val service : WeatherService): ViewModel(), FBDatabase.Listener {
 
     private val _cities = mutableStateMapOf<String, City>()
-    val cities: List<City>
+    val cities : List<City>
         get() = _cities.values.toList()
 
 
     private val _user = mutableStateOf<User?>(null)
     val user: User?
         get() = _user.value
+
+    // Propriedade para a cidade selecionada
+    private var _city = mutableStateOf<City?>(null)
+    var city: City?
+        get() = _city.value
+        set(tmp) { _city = mutableStateOf(tmp?.copy()) }
 
     init {
         db.setListener(this)
@@ -61,6 +68,23 @@ class MainViewModel (private val db: FBDatabase,
         }
     }
 
+    fun loadForecast(city : City) {
+        service.getForecast(city.name) { result ->
+            city.forecast = result?.forecast?.forecastday?.map {
+                Forecast(
+                    date = it.date?:"00-00-0000",
+                    weather = it.day?.condition?.text?:"Erro carregando!",
+                    tempMin = it.day?.mintemp_c?:-1.0,
+                    tempMax = it.day?.maxtemp_c?:-1.0,
+                    imgUrl = ("https:" + it.day?.condition?.icon)
+                )
+            }
+            _cities.remove(city.name)
+            _cities[city.name] = city.copy()
+        }
+    }
+
+
     override fun onUserLoaded(user: User) {
         _user.value = user
     }
@@ -70,8 +94,10 @@ class MainViewModel (private val db: FBDatabase,
     }
 
     override fun onCityUpdate(city: City) {
-        if (_cities.containsKey(city.name)) {
-            _cities[city.name] = city.copy()
+        _cities.remove(city.name)
+        _cities[city.name] = city.copy()
+        if (_city.value?.name == city.name) {
+            _city.value = city.copy()
         }
     }
 
