@@ -43,6 +43,9 @@ fun ListPage(
             .padding(8.dp)
     ) {
         items(cityList) { city ->
+            if (city.weather == null) {
+                viewModel.loadWeather(city)
+            }
             CityItem(city = city, onClose = {
                 viewModel.remove(city)
             }, onClick = {
@@ -78,11 +81,11 @@ fun CityItem(
                 text = city.name,
                 fontSize = 24.sp
             )
-            Text(
-                text = city.weather ?: "Carregando clima...",
-                fontSize = 16.sp
-            )
+            Text(modifier = Modifier,
+                text = city.weather?.desc?:"carregando...",
+                fontSize = 16.sp)
         }
+
         IconButton(onClick = onClose) {
             Icon(
                 imageVector = Icons.Filled.Close,

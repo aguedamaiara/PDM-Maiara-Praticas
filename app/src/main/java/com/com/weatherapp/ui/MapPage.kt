@@ -59,28 +59,41 @@ fun MapPage(viewModel: MainViewModel){
         cameraPositionState = camPosState,
         properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
-    ) { listOf(
-        Triple(recife, "Recife", BitmapDescriptorFactory.HUE_BLUE),
-        Triple(caruaru, "Caruaru", BitmapDescriptorFactory.HUE_GREEN),
-        Triple(joaopessoa, "João Pessoa", BitmapDescriptorFactory.HUE_RED)
-    ).forEach { (position, title, color) ->
-        Marker(
-            state = MarkerState(position = position),
-            title = title,
-            snippet = "Marcador em $title",
-            icon = BitmapDescriptorFactory.defaultMarker(color)
-        )
-    }
+    ) {
 
-        viewModel.cities.forEach { city ->
-            city.location?.let { location ->
-                Marker(
-                    state = MarkerState(position = location),
-                    title = city.name,
-                    snippet = "${location.latitude}, ${location.longitude}"
-                )
-            }
+        Marker(
+            state = MarkerState(position = recife),
+            title = "Recife",
+            snippet = "Marcador em Recife",
+            icon = BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptorFactory.HUE_BLUE)
+        )
+
+        Marker(
+            state = MarkerState(position = caruaru),
+            title = "Caruaru",
+            snippet = "Marcador em Caruaru",
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+        )
+
+        Marker(
+            state = MarkerState(position = joaopessoa),
+            title = "João Pessoa",
+            snippet = "Marcador em João Pessoa",
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+        )
+
+        viewModel.cities.forEach {
+            if (it.location != null) {
+                if (it.weather == null) {
+                    viewModel.loadWeather(it)
+                }
+                Marker( state = MarkerState(position = it.location!!),
+                    title = it.name,
+                    snippet = it.weather?.desc?:"Carregando...")            }
         }
+
     }
 }
+
 
