@@ -40,6 +40,7 @@ import com.google.firebase.auth.auth
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.com.weatherapp.db.fb.FBDatabase
 import com.com.weatherapp.ui.viewmodels.MainViewModelFactory
+import com.com.weatherapp.api.WeatherService
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -58,8 +59,9 @@ class MainActivity : ComponentActivity() {
             val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )
 
             val fbDB = remember { FBDatabase() }
+            val weatherService = remember { WeatherService() }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB)
+                factory = MainViewModelFactory(fbDB, weatherService)
             )
 
             WeatherAppTheme {
