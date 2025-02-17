@@ -21,6 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getDrawable
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.scale
 import com.com.weatherapp.R
 import com.com.weatherapp.ui.viewmodels.MainViewModel
 
@@ -61,7 +64,7 @@ fun MapPage(viewModel: MainViewModel){
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
     ) {
 
-        Marker(
+      /*  Marker(
             state = MarkerState(position = recife),
             title = "Recife",
             snippet = "Marcador em Recife",
@@ -81,19 +84,30 @@ fun MapPage(viewModel: MainViewModel){
             title = "João Pessoa",
             snippet = "Marcador em João Pessoa",
             icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
-        )
+        )*/
 
-        viewModel.cities.forEach {
-            if (it.location != null) {
-                if (it.weather == null) {
-                    viewModel.loadWeather(it)
+        viewModel.cities.forEach { city ->
+            if (city.location != null) {
+                val drawable = getDrawable(context, R.drawable.loading)
+                val bitmap = drawable?.toBitmap(300, 200)
+                var marker = if (bitmap != null)
+                    BitmapDescriptorFactory.fromBitmap(bitmap)
+                else BitmapDescriptorFactory.defaultMarker()
+                if (city.weather == null) {
+                    viewModel.loadWeather(city)
+                } else if (city.weather!!.bitmap == null) {
+                    viewModel.loadBitmap(city)
+                } else {
+                    marker = BitmapDescriptorFactory
+                        .fromBitmap(city.weather!!.bitmap!!.scale(150, 150))
                 }
-                Marker( state = MarkerState(position = it.location!!),
-                    title = it.name,
-                    snippet = it.weather?.desc?:"Carregando...")            }
+                Marker(
+                    state = MarkerState(position = city.location),
+                    icon = marker,
+                    title = city.name,
+                    snippet = city.weather?.desc?:"carregando..."
+                )
+            }
         }
-
     }
 }
-
-

@@ -90,6 +90,12 @@ class MainViewModel (private val db: FBDatabase,
         }
     }
 
+    fun loadBitmap(city: City) {
+        service.getBitmap(city.weather!!.imgUrl) { bitmap ->
+            city.weather!!.bitmap = bitmap
+            onCityUpdate(city)
+        }
+    }
 
     override fun onUserLoaded(user: User) {
         _user.value = user
@@ -111,6 +117,7 @@ class MainViewModel (private val db: FBDatabase,
         _cities.remove(city.name)
     }
 }
+
 
 
 /*private fun generateCities(): List<City> {
