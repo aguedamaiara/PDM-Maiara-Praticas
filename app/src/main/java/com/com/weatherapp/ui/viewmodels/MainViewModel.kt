@@ -14,7 +14,8 @@ import com.com.weatherapp.model.Weather
 import com.com.weatherapp.ui.nav.Route
 
 class MainViewModel (private val db: FBDatabase,
-                     private val service : WeatherService): ViewModel(), FBDatabase.Listener {
+                     private val service : WeatherService):
+    ViewModel(), FBDatabase.Listener {
 
     private val _cities = mutableStateMapOf<String, City>()
     val cities : List<City>

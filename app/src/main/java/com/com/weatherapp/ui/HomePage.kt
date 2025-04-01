@@ -78,19 +78,19 @@ fun HomePage(viewModel: MainViewModel) {
                 Text(
                     text = viewModel.city?.name ?: "Selecione uma cidade...",
                     fontSize = 28.sp,
-                    color = Color.White
+                    color = Color.Black
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = viewModel.city?.weather?.desc ?: "...",
                     fontSize = 22.sp,
-                    color = Color.White
+                    color = Color.Black
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = "Temp: ${viewModel.city?.weather?.temp}℃",
                     fontSize = 22.sp,
-                    color = Color.White
+                    color = Color.Black
                 )
             }
         }

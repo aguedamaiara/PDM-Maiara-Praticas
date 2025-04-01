@@ -91,8 +91,8 @@ fun MapPage(viewModel: MainViewModel){
                 val drawable = getDrawable(context, R.drawable.loading)
                 val bitmap = drawable?.toBitmap(300, 200)
                 var marker = if (bitmap != null)
-                    BitmapDescriptorFactory.fromBitmap(bitmap)
-                else BitmapDescriptorFactory.defaultMarker()
+                                BitmapDescriptorFactory.fromBitmap(bitmap)
+                            else BitmapDescriptorFactory.defaultMarker()
                 if (city.weather == null) {
                     viewModel.loadWeather(city)
                 } else if (city.weather!!.bitmap == null) {
